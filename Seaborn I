@@ -1,3 +1,27 @@
 import seaborn as sns
 import matplotlib.pyplot as plt
 penguins = sns.load_dataset("penguins")
+
+def plot_penguin(data, plot='strip'):
+    peng_chara = ['bill_length_mm', 'bill_depth_mm', 'flipper_length_mm']
+    
+    if plot == 'strip':
+        sns.stripplot(data=data[peng_chara])
+        title = "Strip Plot"
+    elif plot == 'violin':
+        sns.violinplot(data=data[peng_chara])
+        title = "Violin Plot"
+    elif plot == 'box':
+        sns.boxplot(data=data[peng_chara])
+        title = "Box Plot"
+   
+    
+   
+    
+    plt.title(title)
+    plt.xlabel("Characteristics")
+    plt.ylabel("Values")
+
+help(plot_penguin)
+
+plot_penguin(penguins, plot='violin')
