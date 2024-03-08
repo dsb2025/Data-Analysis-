@@ -1,0 +1,24 @@
+library(tidyverse)
+dat <- read_csv("depAndSocMed.csv")
+
+addicPlot <- ggplot(dat, aes(x=addic, y=dep))+
+  geom_point()+
+  geom_smooth(method = "lm")+
+  xlab("social media addiction score")+
+  ylab("depression score")
+show(addicPlot)
+
+timePlot <- ggplot(dat, aes(x=time, y=dep))+
+  geom_point()+
+  geom_smooth(method = "lm")+
+  xlab("time")+
+  ylab("depression score")
+show(timePlot)
+
+adReg<-lm(dep~addic, data=dat)
+
+summary(adReg)
+
+timeReg<-lm(dep~time, data=dat)
+
+summary(timeReg)
