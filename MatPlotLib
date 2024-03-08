@@ -1,0 +1,77 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+x = np.linspace(1, 40) 
+y = 8 + 12*x
+plt.plot(x,y)
+
+noise = np.random.normal(0, 20, len(x)) 
+data = y + noise
+plt.plot(x, noise,label='Data with Noise', color='red', alpha=0.5)
+
+x = np.linspace(1, 40) 
+y = 8 + 12*x
+plt.plot(x,y, label='Normal Data')
+
+#data that are straight line values from the same straight line relationship. plus random noise.
+noise = np.random.normal(0, 20, len(x)) 
+data = y + noise
+plt.plot(x, data,label='Data with Noise', color='red', alpha=0.5)
+
+plt.xlabel('x')
+plt.ylabel('y')
+plt.title('Plot with Noise')
+plt.legend() 
+
+x = np.linspace(1, 40) 
+y = 8 + 12*x
+plt.plot(x,y, label='Normal Data', markersize = 10, linewidth = 3, alpha = 0.5, color = 'purple')
+
+noise = np.random.normal(0, 20, len(x)) 
+data = y + noise
+plt.plot(x, data,label='Data with Noise', color='red', markersize = 10, linewidth = 3, alpha = 0.5)
+
+plt.xlabel('time')
+plt.ylabel('words')
+plt.title('Plot with Noise')
+plt.legend()
+
+#500 normally distributed random numbers and make a histogram of them.
+data = np.random.randn(500)
+plt.hist(data, bins = 16, color = 'r', edgecolor = 'k', alpha = 0.2);
+
+#500 uniformly distributed random numbers 
+data = np.random.rand(500)
+plt.hist(data, bins = 16, color = 'r', edgecolor = 'k', alpha = 0.2);
+
+data = np.random.randn(500)
+plt.hist(data, bins = 16, color = 'r', edgecolor = 'k', alpha = 0.3);
+data = np.random.rand(500)
+plt.hist(data, bins = 10, color = 'b', edgecolor = 'k', alpha = 0.4);
+
+#a figure with 3 subplots
+plt.subplot(2,2,1)
+x = np.linspace(1, 40) 
+y = 8 + 12*x
+plt.plot(x,y, label='Normal Data')
+
+noise = np.random.normal(0, 20, len(x)) 
+data = y + noise
+plt.plot(x, data,label='Data with Noise', color='red', alpha=0.5)
+
+plt.xlabel('x')
+plt.ylabel('y')
+plt.title('Plot with Noise')
+plt.legend()
+
+plt.subplot(2,2,4)
+data = np.random.randn(500)
+plt.hist(data, bins = 16, color = 'r', edgecolor = 'k', alpha = 0.2);
+plt.title('Normally Distributed')
+
+plt.subplot(2,2,3)
+data = np.random.rand(500)
+plt.hist(data, bins = 16, color = 'r', edgecolor = 'k', alpha = 0.2);
+
+
+
