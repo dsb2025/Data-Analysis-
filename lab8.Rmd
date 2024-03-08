@@ -1,0 +1,80 @@
+library(tidyverse)
+sln <- read.csv("salsLargeN.csv")
+
+lg_t_test <- t.test(sln$salary[sln$school == "TAMU"],
+                     sln$salary[sln$school == "UT"])
+                     
+sln_se <- sln %>%
+  group_by(school) %>%
+  summarize(mean_salary = mean(salary), 
+            std = sd(salary) / sqrt(n())) %>%
+  mutate(diff = mean_salary["TAMU"] - mean_salary["UT"],
+         diff_in_se = diff/ std["TAMU"])
+
+
+show(sln_se)
+
+
+ggplot(data = sln_se, aes(x = school, y = mean_salary, ymin = mean_salary - std, ymax = mean_salary + std)) +
+  geom_point(position = position_dodge(width = 0.2)) +
+  geom_errorbar(width = 0.2, position = position_dodge(width = 0.2)) +
+  labs(title = "                           Difference in Means",
+       x = "School",
+       y = "sampMeans")
+       
+ggplot(sln, aes(x = salary, color = school)) +
+  geom_freqpoly(binwidth = 500) +
+  labs(title = "",
+       x = "Salary",
+       y = "Frequency") +
+  scale_color_manual(values = c("TAMU" = "blue", "UT" = "red"))
+
+       
+effect_size <- (sln_means_and_se$mean_salary[sln_means_and_se$school == "TAMU"] - sln_means_and_se$mean_salary[sln_means_and_se$school == "UT"]) /    
+      sln_means_and_se$std_error_salary[sln_means_and_se$school == "TAMU"]
+print(effect_size)
+
+sample(sln$salary[sln$school == "UT"], size=1)
+
+sample(sln$salary[sln$school == "UT"], size=1) >
+sample(sln$salary[sln$school == "TAMU"], size=1)
+
+UTWins <- replicate(100, sample(sln$salary[sln$school == "UT"], size=1) >
+sample(sln$salary[sln$school == "TAMU"], size=1))
+
+lgNumWins <- sum(UTWins)
+print(lgNumWins)
+
+smallSampleData <- read.csv("salsSmallN.csv")
+
+small_sample_means_and_se <- smallSampleData %>%
+  group_by(school) %>%
+  summarize(mean_salary = mean(salary),
+            std_error_salary = sd(salary) / sqrt(n()))
+
+
+larger_sd <- max(small_sample_means_and_se$std_error_salary)
+effect_size <- (small_sample_means_and_se$mean_salary[small_sample_means_and_se$school == "TAMU"] - small_sample_means_and_se$mean_salary[small_sample_means_and_se$school == "UT"]) / larger_sd
+
+
+ggplot(data = small_sample_means_and_se, aes(x = school, y = mean_salary, ymin = mean_salary - std_error_salary, ymax = mean_salary + std_error_salary)) +
+  geom_point(position = position_dodge(width = 0.2)) +
+  geom_errorbar(width = 0.2, position = position_dodge(width = 0.2)) +
+  labs(title = "Difference in Means between TAMU and UT Schools (Small Sample)",
+       x = "School",
+       y = "Mean Salary")
+show(effect_size)
+
+
+
+result <- t.test(smallSampleData$salary[smallSampleData$school == "TAMU"], smallSampleData$salary[smallSampleData$school == "UT"], var.equal = FALSE)
+
+
+print(result)
+
+ggplot(smallSampleData, aes(x = salary, color = school)) +
+  geom_freqpoly(binwidth = 500) +
+  labs(title = "",
+       x = "Salary",
+       y = "Frequency") +
+  scale_color_manual(values = c("TAMU" = "blue", "UT" = "red"))
