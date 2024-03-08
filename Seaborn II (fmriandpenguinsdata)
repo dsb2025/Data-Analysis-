@@ -1,0 +1,53 @@
+import seaborn as sns
+import matplotlib.pyplot as plt
+%matplotlib inline 
+
+#Load fmri dataset
+fmri = sns.load_dataset("fmri")
+
+sns.relplot(
+    data=fmri, kind="line",
+    x="timepoint", y="signal", col="region",
+    hue="subject", style="event",
+)
+
+sns.relplot(
+    data=fmri, kind="line",
+    x="timepoint", y="signal", col="region",
+    hue="event", style="event",
+)
+
+sns.lineplot(
+    data=fmri, x="timepoint", y="signal", hue="event", err_style="bars", errorbar=("se", 2),
+)
+
+sns.displot(data=fmri, x="signal", col="event", kde=True)
+
+sns.displot(data=fmri, x="signal", hue="event", multiple="stack", kde=True)
+
+sns.violinplot(data=fmri, x='region', y="signal", col = 'event')
+
+fg = sns.relplot(
+    data=fmri, kind="line",
+    x="timepoint", y="signal", col="region",
+    hue="event", style="event",
+)
+
+import numpy as np
+import pandas as pd
+
+my_means = [0, 0]
+my_cov = [[2, -1.9], [-1.9, 3]]
+my_n = 5000
+
+my_rng = np.random.default_rng(42)
+x, y = my_rng.multivariate_normal(my_means, my_cov, my_n).T
+
+df = pd.DataFrame(dict(x=x, y=y))
+
+sns.jointplot(data=df, x='x', y='y', alpha = 0.2)
+
+penguins = sns.load_dataset("penguins")
+
+sns.jointplot(data=penguins, x="flipper_length_mm", y="bill_length_mm", hue="species")
+sns.pairplot(data=penguins, hue="species")
