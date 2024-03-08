@@ -1,0 +1,37 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+x = np.linspace(1, 40, 100)
+y = x + np.random.normal(0, 5, len(x)) 
+
+
+fig = plt.figure(figsize=(10, 10))                        
+fig.set_facecolor('lightgray')                
+
+
+yhist_ax = plt.subplot(2,2,4)             
+plt.hist(x, color = 'red', edgecolor = 'k', alpha = 0.5);
+plt.title('x Histogram')
+plt.xlabel('x')
+plt.ylabel('y')
+
+corr_coef = np.corrcoef(x, y)[0, 1] 
+plt.subplot(2,2,2)
+plt.plot(x,y)
+plt.text(0.5, 30, f'Corr_Coef:\n{corr_coef:.2f}', fontsize=12)
+plt.title('Correlation')
+plt.xlabel('x')
+plt.ylabel('y')
+
+plt.subplot(2,2,1)
+plt.hist(y, color = 'red', edgecolor = 'k', alpha = 0.5);
+plt.title('y Histogram')
+plt.xlabel('x')
+plt.ylabel('y')
+
+# scatterplot subplot
+plt.subplot(2,2,3)
+plt.scatter(x,y, c = 'green', alpha = 0.3, edgecolor = 'k');
+plt.xlabel('x')
+plt.ylabel('y')
+plt.title('Scatterplot')
