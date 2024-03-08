@@ -1,0 +1,61 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+x = np.array([2, 4, 6, 8, 10, 12, 14, 16, 18, 20])
+y = np.array([60, 80, 90, 92, 94, 94, 96, 98, 98, 100])
+
+np.random.seed(42)
+X = np.linspace(-5, 5, num=20)
+y = 2*X**2 - X + 1 + np.random.normal(scale=5, size=len(X))
+
+lin_coeffs = np.polyfit(X, y, deg=1)
+line_fit = np.polyval(lin_coeffs, X)
+
+e_x = np.array([2.2, 1.9, 1.6, 0.8, 0.1, -0.1, -0.75, -1.6, -1.9, -2.2, -3, -3.2, -3.8, -4.2, -4.7])
+e_y = np.array([2, -1, 5, 0.1, 0, 5, 1, 10, 18, 15, 20, 36, 38, 45, 58])
+
+# Fit the data with a polynomial of degree one
+coeff = np.polyfit(e_x, e_y, deg=1)
+# Evaluate the polynomial to extract the straight line
+slope = coeff[0]
+intercept = coeff[1]
+
+e_y_hat = np.polyval(coeff, e_x)
+
+# plot data (red) and straight line (blue)
+plt.scatter(e_x, e_y, label='data', color='red')
+plt.plot(e_x, e_y_hat, color='blue', label='linear fit')
+plt.xlabel('X')
+plt.ylabel('Y')
+plt.title('Linear Regression: X vs. Y')
+plt.legend()
+
+plt.show()
+
+sse = sum((e_y - e_y_hat) ** 2)
+sse
+
+# Fit a higher-order polynomial
+overfit_coeffs = np.polyfit(X, y, deg=12)
+overfit_fit = np.polyval(overfit_coeffs, X)
+
+plt.scatter(X, y, label='data')
+plt.plot(X, quadratic_fit, label='quadratic fit')
+plt.plot(X, overfit_fit, label='overfit', color='red')
+plt.legend()
+plt.show()
+
+third_order_coeffs = np.polyfit(X, y, deg=3)
+third_order_fit = np.polyval(third_order_coeffs, X)
+
+twelfth_order_coeffs = np.polyfit(X, y, deg=12)
+twelfth_order_fit = np.polyval(twelfth_order_coeffs, X)
+
+plt.scatter(X, y, label='data')
+plt.plot(X, third_order_fit, label='third order fit', color='blue')
+plt.plot(X, twelfth_order_fit, label='twelfth order fit', color='red')
+plt.legend()
+plt.show()
+
+print(np.sum((y - third_order_fit) ** 2)
+np.sum((y - twelfth_order_fit) ** 2)
