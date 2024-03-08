@@ -59,3 +59,4 @@ plt.show()
 
 print(np.sum((y - third_order_fit) ** 2)
 np.sum((y - twelfth_order_fit) ** 2)
+# the third-order fit is likely to be smaller than the SSE for the twelfth-order fit.
