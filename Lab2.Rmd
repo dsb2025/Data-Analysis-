@@ -1,0 +1,21 @@
+library(tidyverse)
+hts <- read.csv("2020heights.csv")
+
+ggplot(hts, aes(x=heights)) + geom_histogram()
+
+ggplot(hts, aes(x=heights)) + geom_histogram(bins=2) 
+
+ggplot(hts, aes(x=heights)) + geom_histogram(bins=100) 
+
+ggplot(hts, aes(x=heights)) + geom_histogram(bins=30) 
+
+ggplot(hts, aes(x=heights)) + geom_histogram(bins=30, fill="red", color="blue") 
+
+
+hts1 <- hts %>% mutate(zscore = (heights-mean(heights))/sd(heights))
+
+
+hts1 <- hts %>% mutate(zscore = (heights-mean(heights))/sd(heights)) %>% arrange(abs(zscore))
+
+
+mean(hts$heights)

@@ -1,0 +1,53 @@
+library(tidyverse)
+
+samp <- rnorm(25, mean = 100, sd = 10)
+
+mean(samp)
+sd(samp)
+
+sampleTib <- tibble(samp)
+
+sampleTib %>%
+  ggplot(aes(x = samp)) +
+  geom_freqpoly(binwidth = 4) +
+  xlim(70, 130)
+  
+lotsOfSamples <- replicate(1000, rnorm(25, mean = 100, sd = 10))
+
+mySampDist <- colMeans(lotsOfSamples)
+
+
+sampDistTibble <- tibble(mySampDist)
+
+sd(mySampDist) / sqrt(length(mySampDist))
+
+sampDistTibble %>%
+ggplot(aes(x = mySampDist)) +
+geom_freqpoly(binwidth = 1) +
+xlim(70, 130)
+
+
+samptwo <- rnorm(100, mean = 100, sd = 10)
+
+samptib <- tibble(samptwo)
+
+samptib %>%
+ggplot(aes(x = samptwo)) +
+geom_freqpoly(binwidth = 4) +
+xlim(70, 130)
+
+mean(samptwo)
+sd(samptwo)
+
+lotsOfSamples <- replicate(1000, rnorm(100, mean = 100, sd = 10))
+
+SampDist <- colMeans(lotsOfSamples)
+
+sampDistTibble <- tibble(SampDist)
+
+sampDistTibble %>%
+ggplot(aes(x = SampDist)) +
+geom_freqpoly(binwidth = 1) +
+xlim(70, 130)
+
+sd(SampDist) / sqrt(length(SampDist))

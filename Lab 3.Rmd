@@ -1,0 +1,22 @@
+library(tidyverse)
+hw <- read.csv("HandWashingData-1.csv")
+
+ggplot(hw, aes(x=washes, fill=sex)) + geom_histogram(binwidth=1)
+
+ggplot(hw, aes(x=washes, color=sex)) + geom_freqpoly(binwidth=1)
+
+ggplot(hw, aes(x=washes, fill=sex)) + geom_boxplot()
+
+ mysum <- hw %>%
+  group_by(sex) %>%
+  summarise(count = n(),
+            means = mean(washes),
+            sds =sd(washes),
+            ses =sds/sqrt(count),
+            cis = 1.96*ses)
+            
+show(mysum)
+
+ggplot(mysum, aes(x = sex, y = means)) +  
+    geom_point()+
+    geom_errorbar(aes(ymin = means-cis, ymax = means+cis))

@@ -1,0 +1,21 @@
+library(tidyverse)
+
+data <- read_csv("mystery_data.csv")
+
+central_tendencies <- data %>% 
+  group_by(dist_name) %>%
+  summarise(my_means = mean(values),
+    my_medians = median(values))
+    
+show(central_tendencies)
+
+central_tendencies <- central_tendencies %>%
+  mutate(my_diff = my_means - my_medians)
+  
+show(central_tendencies) 
+
+my_plot <- data %>%
+  ggplot(aes(x= values, color = dist_name)) +
+  geom_freqpoly(binwidth=5)
+  
+show(my_plot)
