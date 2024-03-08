@@ -1,0 +1,35 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+my_rng = np.random.default_rng(seed = 42)
+test_a = my_rng.normal(100, 15, (100,1))
+test_b = test_a + my_rng.normal(0, 10, test_a.shape)
+
+gs_kw = dict(width_ratios=[3, 1], height_ratios=[8, 2])
+fig, axd = plt.subplot_mosaic([['scatter', 'hist_a'],
+                               ['hist_b', 'empty']],
+                              gridspec_kw=gs_kw, 
+                              figsize=(8, 8),
+                              layout="constrained")
+
+
+
+axd['scatter'].scatter(test_a, test_b, color='skyblue')
+axd['scatter'].set_xlabel('Test A Scores')
+axd['scatter'].set_ylabel('Test B Scores')
+axd['scatter'].grid(True)
+
+axd['hist_a'].hist(test_a, bins=10, color='skyblue', edgecolor='black', orientation='horizontal')
+axd['hist_a'].set_ylabel('Frequency')
+axd['hist_a'].set_xlabel('Test A Scores')
+axd['hist_a'].grid(True)
+
+
+axd['hist_b'].hist(test_b, bins=10, color='skyblue', edgecolor='black', orientation='vertical')
+axd['hist_b'].set_xlabel('Frequency')
+axd['hist_b'].set_ylabel('Test B Scores')
+axd['hist_b'].grid(True)
+
+axd['empty'].axis('off')
+
+fig.suptitle('Test A vs. Test B')
