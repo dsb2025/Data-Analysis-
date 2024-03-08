@@ -1,0 +1,41 @@
+library(tidyverse)
+df <- read_csv('Balque_Danielle_data.csv')
+
+
+ggplot(df, aes(x = Steps, y = Mood)) +
+    geom_point(color = "blue", size = 2) +
+    geom_smooth(method = "lm")+
+    labs(title = "                        Scatterplot of Steps vs. Mood Scale", x = "Steps", y = "Mood Scale")
+    
+correlation <- cor.test(df$Steps, df$Mood)
+correlation
+
+mysum <- df %>%
+  group_by(Mood) %>%
+  summarise(count = n(),
+            means = mean(Steps),
+            sds =sd(Steps)) %>%
+          mutate(ses =sds/sqrt(count)) %>%
+          mutate(cis = 1.96*ses)
+          
+show(mysum)
+
+
+mean_mood <- mean(df$Mood)
+sd_mood <- sd(df$Mood)
+mean_steps <- mean(df$Steps)
+sd_steps <- sd(df$Steps)
+
+# Display the results
+cat("Mean of Mood:", mean_mood, "\n")
+cat("Standard Deviation of Mood:", sd_mood, "\n")
+cat("Mean of Steps:", mean_steps, "\n")
+cat("Standard Deviation of Steps:", sd_steps, "\n")
+
+
+cor_test <- cor.test(df$Mood, df$Steps, method = "pearson")
+cat("Pearson's correlation p-value:", cor_test$p.value, "\n")
+
+# Spearman's correlation test (use if data does not meet assumptions for Pearson's test)
+cor_test_spearman <- cor.test(df$Mood, df$Steps, method = "spearman")
+cat("Spearman's correlation p-value:", cor_test_spearman$p.value, "\n")

@@ -1,0 +1,41 @@
+library(tidyverse)
+
+df <- read_csv('stepsmood.csv')
+
+ggplot(df, aes(x = steps, y = mood)) +
+    geom_point(color = "blue", size = 2) +
+    labs(title = "                                 Scatterplot of Steps vs. Mood Scale", x = "Steps", y = "Mood Scale")
+    
+    
+correlation <- cor(df$steps, d$mood)
+correlation
+
+mysum <- df %>%
+  group_by(mood) %>%
+  summarise(count = n(),
+            means = mean(steps),
+            sds =sd(steps)) %>%
+          mutate(ses =sds/sqrt(count)) %>%
+          mutate(cis = 1.96*ses)
+          
+show(mysum)
+
+t.test(df$steps, df$mood, paired = TRUE)
+
+
+
+library(tidyverse)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
