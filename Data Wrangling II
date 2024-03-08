@@ -1,0 +1,34 @@
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+
+def bcd_load_clean():
+    bcd = pd.read_csv('/Users/daniellebalque/Downloads/breast_cancer_data.csv')
+    bcd['patient_id'] = bcd['patient_id'].astype('string')
+    bcd['doctor_name'] = bcd['doctor_name'].str.split().str[1]
+    bcd['bare_nuclei'] = bcd['bare_nuclei'].replace('?', '')
+    bcd['bare_nuclei'] = pd.to_numeric(bcd['bare_nuclei'])
+    
+    return bcd
+
+bcd = bcd_load_clean()
+
+grp = bcd.groupby('doctor_name')[['clump_thickness', 'bland_chromatin']].describe()
+
+plt.figure(figsize=(16, 8))
+plt.subplot(1, 2, 1)
+sns.boxplot(data=bcd, x='doctor_name', y='clump_thickness')
+plt.title('Clump Thickness for each Doctor')
+plt.xlabel('Doctor')
+plt.ylabel('Clump Thickness')
+
+plt.subplot(1, 2, 2)
+sns.boxplot(data=bcd, x='doctor_name', y='bland_chromatin')
+plt.title('Bland Chromatin for each Doctor')
+plt.xlabel('Doctor')
+plt.ylabel('Bland Chromatin')
+
+
+print(grp)
+
