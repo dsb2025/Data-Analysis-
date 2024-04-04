@@ -1,0 +1,46 @@
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+
+gis_data = pd.read_csv('/Users/daniellebalque/Downloads/Texas_Counties_GIS_Data_Final.csv')
+gis_data.head()
+
+plt.figure(figsize=(12, 8))
+sns.scatterplot(x='Y_Longitude', y='X_Latitude', data=gis_data, hue='County')
+plt.title('Spatial Patterns in Texas Counties')
+plt.xlabel('Longitude')
+plt.ylabel('Latitude')
+plt.gca().set_aspect('equal', adjustable='box')
+plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
+plt.show()
+
+grp = gis_data.groupby('County')[['Shape_Length', 'Shape_Area']].describe()
+grp
+
+sns.set_theme(style="whitegrid", font_scale=1.25)
+
+# Plotting
+fg = sns.relplot(
+    data=gis_data,
+    x="Shape_Length", y="Shape_Area", color = 'purple',
+    marker="o", s=100, alpha=0.4
+)
+
+# Set axis labels
+fg.set_axis_labels("Shape Length", "Shape Area", labelpad=10)
+
+# Set figure size and margins
+fg.figure.set_size_inches(6.5, 4.5)
+fg.ax.margins(.15)
+
+# Remove spines
+fg.despine(trim=True)
+
+plt.show()
+
+joint_plot = sns.jointplot(x='Y_Longitude', y='X_Latitude', data=gis_data, kind='hex', color='skyblue')
+joint_plot.fig.suptitle('Jointplot of Latitude and Longitude in Texas Counties', y=1.02)
+plt.xlabel('Longitude')
+plt.ylabel('Latitude')
+plt.show()
